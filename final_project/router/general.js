@@ -9,24 +9,34 @@ const axios = require('axios');
 public_users.post("/register", (req, res) => {
     const { username, password } = req.body;
 
-    // Check if username and password are provided
+    // 🔥 Check if both fields are provided
     if (!username || !password) {
-        return res.status(400).json({ message: "Username and password are required" });
+        return res.status(400).json({
+            message: "Username and password are required"
+        });
     }
 
-    // Check if user already exists
+    // 🔥 Check if username already exists
     const userExists = users.some(user => user.username === username);
 
     if (userExists) {
-        return res.status(409).json({ message: "User already exists" });
+        return res.status(409).json({
+            message: "User already exists"
+        });
     }
 
-    // Register new user
+    // 🔥 Register new user
     users.push({ username, password });
 
-    return res.status(201).json({ message: "User registered successfully" });
+    return res.status(201).json({
+        message: "User registered successfully"
+    });
 });
 
+// Add this so Axios has a place to get the data from
+public_users.get('/books', function (req, res) {
+    res.send(JSON.stringify(books));
+});
 // Get the book list available in the shop
 public_users.get('/', async function (req, res) {
     try {
